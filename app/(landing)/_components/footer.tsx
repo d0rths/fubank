@@ -51,7 +51,7 @@ const Footer = () => {
             2024 Financial Universal Bank. All rights reserved!
           </p>
           <div className="flex flex-row pt-5 pb-20">
-            <Link href="" className="hover:text-fill">
+            <Link href="">
               <Image
                 src={Facebook}
                 alt="Facebook logo"
@@ -89,19 +89,21 @@ const Footer = () => {
           height={796}
           className="absolute bottom-0 right-0 z-0 w-full h-[90%]"
         />
-        <div className="z-[999] mb-8">
-          <h3 className="text-[2.5rem] text-white z-[999]">Вперше в FUBank?</h3>
-          <h2 className="text-6xl font-bold text-white z-[999]">
+        <div className="z-20 mb-8">
+          <h3 className="text-[2.5rem] text-white z-20">Вперше в FUBank?</h3>
+          <h2 className="text-6xl font-bold text-white z-20">
             Введіть свій<br></br>Email і почніть зараз
           </h2>
         </div>
-        <div className="flex items-center flex-row z-[999]">
+        <div className="flex items-center flex-row z-20">
           <input
             type="text"
             placeholder="Введіть ваш Email"
-            className="backdrop-blur bg-transparent border-2 border-rose-500 rounded-lg px-10 py-5 text-2xl"
+            className="backdrop-blur bg-transparent border-2 border-rose-500 rounded-lg px-10 py-4 text-2xl text-white"
           ></input>
-          <Button className="mx-8 px-10 py-8">Розпочати</Button>
+          <Button className="mx-8 px-10 py-8 text-2xl">
+            <p className="mb-1">Розпочати</p>
+          </Button>
         </div>
       </div>
     </footer>
