@@ -22,20 +22,20 @@ const Header = () => {
           безтурботний банкінг з Financial Universal Bank.
         </p>
         <div className="flex gap-x-10">
-          <Button className="text-2xl px-[4rem] py-[2.15rem]">
-            <Link href="" className="flex items-center">
+          <Link href="/register" className="flex items-center">
+            <Button className="text-2xl px-[4rem] py-[2.15rem]">
               <p className="mb-1">Почати</p>
-            </Link>
-          </Button>
-          <Button
-            variant="outline"
-            className="px-12 py-8 flex items-center justify-center"
-          >
-            <Link href="" className="flex items-center text-2xl">
+            </Button>
+          </Link>
+          <Link href="/" className="flex items-center">
+            <Button
+              variant="outline"
+              className="px-12 py-8 flex items-center justify-center text-2xl"
+            >
               <p className="mb-1">Більше</p>
               <ArrowRight className="w-5 h-5 ml-4" />
-            </Link>
-          </Button>
+            </Button>{" "}
+          </Link>
         </div>
       </div>
       <div>

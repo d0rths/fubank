@@ -6,8 +6,9 @@ import Facebook from "@/public/facebook_logo.svg";
 import Instagram from "@/public/instagram_logo.svg";
 import Twitter from "@/public/twitter_logo.svg";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   return (
     <main className="bg-light w-full h-full relative flex flex-row">
       <div className="absolute z-0 inset-0">
@@ -26,15 +27,19 @@ const LoginPage = () => {
             <Image src={Logo} alt="Logo" width={280} height={65} />
           </Link>
         </div>
-        <div className="px-[7.5rem] pt-36">
+        <div className="px-[7.5rem] pt-32">
           <h2 className="text-custom font-medium text-[2rem]">
             Financial Universal Bank
           </h2>
-          <h1 className="text-[5rem] font-bold">З Поверненням</h1>
+          <h1 className="text-[5rem] font-bold leading-none">
+            Безтурботний банкінг
+          </h1>
           <p className="text-2xl text-muted-foreground pt-10">
-            Введіть свої дані для повторного входу в Особистий кабінет!
+            Насолоджуйтесь простим, безпечним та безтурботним банкінгом.
+            Попрощайтеся з довгими чергами та складними процедурами і привітайте
+            безтурботний банкінг з FUBank.
           </p>
-          <div className="flex flex-row py-[8.7rem]">
+          <div className="flex flex-row py-20">
             <Link href="">
               <Image
                 src={Facebook}
@@ -64,9 +69,15 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-      <div className=" bg-white px-20 pt-16 pb-10 mx-24 my-[10.5rem] z-20 rounded-3xl flex flex-col shadow-[0_0_100px_40px_rgba(51,183,134,0.25)]">
-        <h2 className="text-[2.5rem] text-custom font-semibold">Вхід</h2>
-        <p className="text-base font-bold pt-10">Email</p>
+      <div className=" bg-white px-20 pt-16 pb-10 mx-24 my-24 z-20 rounded-3xl flex flex-col shadow-[0_0_100px_40px_rgba(51,183,134,0.25)]">
+        <h2 className="text-[2.5rem] text-custom font-semibold">Реєстрація</h2>
+        <p className="text-base font-bold pt-10">Ім'я</p>
+        <input
+          type="text"
+          placeholder="Введіть ваше ім'я"
+          className="backdrop-blur bg-transparent border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
+        />
+        <p className="text-base font-bold pt-5">Email</p>
         <input
           type="text"
           placeholder="Введіть ваш Email"
@@ -78,17 +89,32 @@ const LoginPage = () => {
           placeholder="Введіть ваш пароль"
           className="backdrop-blur bg-transparent border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
         />
-        <Button className="text-2xl text-white font-semibold mt-10 py-8">
-          Увійти
+        <div className="flex flex-row items-center mt-6">
+          <Checkbox id="terms" />
+          <p className="text-base text-muted-foreground ml-2">
+            Я погоджуюся з усіма{" "}
+            <Link href="" className="text-base text-bold text-custom">
+              Умовами, Політикою конфіденційності
+            </Link>{" "}
+            та{" "}
+            <Link href="" className="text-base text-bold text-custom">
+              Тарифами
+            </Link>
+            .
+          </p>
+        </div>
+
+        <Button className="text-2xl text-white font-semibold mt-8 py-8">
+          Зареєструватися
         </Button>
         <p className="text-base text-muted-foreground mt-4 mb-4">
-          Не маєте облікового запису?{" "}
+          Вже є обліковий запис?{" "}
           <Link
-            href="/register"
+            href="/login"
             scroll={false}
             className="text-base text-bold text-custom"
           >
-            Реєстрація
+            Увійти
           </Link>
         </p>
       </div>
@@ -96,4 +122,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

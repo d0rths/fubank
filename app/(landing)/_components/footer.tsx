@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   return (
-    <footer className="flex bg-light pl-[7.5rem] justify-between">
+    <footer id="contacts" className="flex bg-light pl-[7.5rem] justify-between">
       <div>
         <div className="flex flex-row w-2/5">
-          <div className="flex flex-col pt-[7.5rem]">
+          <div className="flex flex-col pt-[7.5rem] min-w-80">
             <h2 className="text-custom text-[2rem] font-bold pb-10">
               ПІДТРИМКА
             </h2>
@@ -26,16 +26,16 @@ const Footer = () => {
               Спосіб використання
             </Link>
           </div>
-          <div className="flex flex-col pt-[7.5rem] px-24">
+          <div className="flex flex-col pt-[7.5rem] min-w-80">
             <h2 className="text-custom text-[2rem] font-bold pb-10">ПРО НАС</h2>
             <Link href="" className="py-3 text-2xl text-muted-foreground">
-              Центр підтримки
+              Про FUBank
             </Link>
             <Link href="" className="py-3 text-2xl text-muted-foreground">
-              Зв'яжіться з нами
+              Умови та положення
             </Link>
             <Link href="" className="py-3 text-2xl text-muted-foreground">
-              Спосіб використання
+              Політика конфіденційності
             </Link>
           </div>
         </div>
@@ -90,8 +90,10 @@ const Footer = () => {
           className="absolute bottom-0 right-0 z-0 w-full h-[90%]"
         />
         <div className="z-20 mb-8">
-          <h3 className="text-[2.5rem] text-white z-20">Вперше в FUBank?</h3>
-          <h2 className="text-6xl font-bold text-white z-20">
+          <h3 className="text-[2.5rem] text-white z-20 ml-[-4.225rem]">
+            Вперше в FUBank?
+          </h3>
+          <h2 className="text-6xl font-bold text-white z-20 ml-[-4.225rem]">
             Введіть свій<br></br>Email і почніть зараз
           </h2>
         </div>

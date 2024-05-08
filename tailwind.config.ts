@@ -68,6 +68,14 @@ const config = {
           DEFAULT: "#46237A",
           foreground: "hsl(var(--link-foreground))",
         },
+        inactive: {
+          DEFAULT: "#555555",
+          foreground: "hsl(var(--inactive-foreground))",
+        },
+        customGray: {
+          DEFAULT: "#F0F0F0",
+          foreground: "hsl(var(--customGray-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
