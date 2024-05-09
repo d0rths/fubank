@@ -66,17 +66,17 @@ const LoginPage = () => {
       </div>
       <div className=" bg-white px-20 pt-16 pb-10 mx-24 my-[10.5rem] z-20 rounded-3xl flex flex-col shadow-[0_0_100px_40px_rgba(51,183,134,0.25)]">
         <h2 className="text-[2.5rem] text-custom font-semibold">Вхід</h2>
-        <p className="text-base font-bold pt-10">Email</p>
+        <p className="text-base font-bold pt-10">Пошта</p>
         <input
           type="text"
           placeholder="Введіть ваш Email"
-          className="backdrop-blur bg-transparent border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
+          className="border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
         />
-        <p className="text-base font-bold pt-5">Password</p>
+        <p className="text-base font-bold pt-5">Пароль</p>
         <input
           type="text"
           placeholder="Введіть ваш пароль"
-          className="backdrop-blur bg-transparent border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
+          className="border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
         />
         <Button className="text-2xl text-white font-semibold mt-10 py-8">
           Увійти

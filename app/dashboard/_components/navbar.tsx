@@ -20,7 +20,9 @@ export const Navigation = () => {
   return (
     <div className="pl-[7.5rem] pr-[6.5rem] w-max">
       <div className="py-10">
-        <Image src={Logo} alt="Logo" width={273} height={64} />
+        <Link href="/">
+          <Image src={Logo} alt="Logo" width={273} height={64} />
+        </Link>
       </div>
       <div className={"flex flex-col py-16 gap-y-10"}>
         <Link
@@ -86,8 +88,8 @@ export const Navigation = () => {
         </Link>
       </div>
       <div className="pt-80 pb-14">
-        <Link href="" className="flex flex-row">
-          <ArrowLeft width={32} height={32} className="text-inactive" />
+        <Link href="/login" className="flex flex-row">
+          <ArrowLeft width={32} height={32} />
           <p className="text-xl font-medium ml-10 text-inactive">
             Вихід з системи
           </p>

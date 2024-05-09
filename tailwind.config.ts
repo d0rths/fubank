@@ -76,6 +76,10 @@ const config = {
           DEFAULT: "#F0F0F0",
           foreground: "hsl(var(--customGray-foreground))",
         },
+        darkCustomGray: {
+          DEFAULT: "#D4D4D4",
+          foreground: "hsl(var(--darkCustomGray-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

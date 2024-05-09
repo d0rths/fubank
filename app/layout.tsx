@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Exo_2 } from "next/font/google";
 import "./globals.css";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 const sans = Exo_2({ subsets: ["cyrillic-ext", "latin"] });
 
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="uk">
-      <body className={sans.className}>{children}</body>
+      <UserProvider>
+        <body className={sans.className}>{children}</body>
+      </UserProvider>
     </html>
   );
 }

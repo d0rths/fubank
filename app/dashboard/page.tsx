@@ -1,11 +1,13 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import EyeCrossed from "@/public/eye-crossed.svg";
 import Eye from "@/public/eye.svg";
 import IconLogo from "@/public/Icon_logo.svg";
 import { Bebas_Neue } from "next/font/google";
-import { Plus } from "lucide-react";
+import { ArrowLeft, ArrowRight, Plus } from "lucide-react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -13,10 +15,10 @@ const bebasNeue = Bebas_Neue({
 });
 
 const DashboardPage = () => {
-  let pageTitle = "Огляд";
+  const pathname = usePathname();
   return (
-    <div className="pt-20 max-w-[44.5rem]">
-      <div>
+    <div className="flex flex-row pt-20">
+      <div className="pr-[6.5rem]">
         <div>
           <div className="flex flex-row justify-between pb-5">
             <h2 className="text-2xl font-medium">Баланс Поточного Рахунку</h2>
@@ -87,7 +89,23 @@ const DashboardPage = () => {
         </div>
       </div>
       <div>
-        <div></div>
+        <div className="flex flex-row justify-between">
+          <h2 className="text-2xl font-medium">Транзакції</h2>
+          <Link
+            href="/dashboard/transactions"
+            className="flex flex-row"
+            style={{
+              color:
+                pathname === "/dashboard/transactions" ? "#33B786" : "#555555",
+            }}
+          >
+            <ArrowRight
+              width={26}
+              height={26}
+              className="mt-1 text-custom ml-80"
+            />
+          </Link>
+        </div>
         <div></div>
       </div>
     </div>

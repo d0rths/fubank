@@ -1,7 +1,9 @@
+"use client";
 import Image from "next/image";
 import Logoimg from "@/public/Logo.svg";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export const Navbar = () => {
   return (
@@ -23,9 +25,11 @@ export const Navbar = () => {
         </div>
       </div>
       <div>
-        <Button variant="outline" className="text-2xl px-10 py-8 rounded-lg">
-          <a href="/login">Login</a>
-        </Button>
+        <a href="/api/auth/login">
+          <Button variant="outline" className="text-2xl px-10 py-8 rounded-lg">
+            Login
+          </Button>
+        </a>
       </div>
     </nav>
   );

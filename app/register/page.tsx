@@ -75,19 +75,19 @@ const RegisterPage = () => {
         <input
           type="text"
           placeholder="Введіть ваше ім'я"
-          className="backdrop-blur bg-transparent border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
+          className="border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
         />
-        <p className="text-base font-bold pt-5">Email</p>
+        <p className="text-base font-bold pt-5">Пошта</p>
         <input
           type="text"
           placeholder="Введіть ваш Email"
-          className="backdrop-blur bg-transparent border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
+          className="border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
         />
-        <p className="text-base font-bold pt-5">Password</p>
+        <p className="text-base font-bold pt-5">Пароль</p>
         <input
           type="text"
           placeholder="Введіть ваш пароль"
-          className="backdrop-blur bg-transparent border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
+          className="border-[1px] border-gray-400 rounded-lg py-5 pl-4 pr-[26rem] mt-3 text-base font-medium shadow-[0_0_40px_-20px_rgba(0,0,0,0.23)]"
         />
         <div className="flex flex-row items-center mt-6">
           <Checkbox id="terms" />

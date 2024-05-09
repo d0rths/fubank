@@ -3,6 +3,8 @@ import Image from "next/image";
 import SearchIcon from "@/public/Search_icon.svg";
 import AvatarPlaceholder from "@/public/avatar_placeholder.png";
 import { Bebas_Neue } from "next/font/google";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { Link } from "lucide-react";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -10,6 +12,7 @@ const bebasNeue = Bebas_Neue({
 });
 
 const DashboardHeader: React.FC<{ pathname: string }> = ({ pathname }) => {
+  const { user } = useUser();
   let pageTitle = "Огляд"; // Заголовок за замовчуванням
 
   switch (pathname) {
@@ -31,7 +34,7 @@ const DashboardHeader: React.FC<{ pathname: string }> = ({ pathname }) => {
 
   return (
     <div className="flex flex-row">
-      <div className="flex flex-row min-w-[44.5rem] max-w-[44.5rem] justify-between">
+      <div className="flex flex-row min-w-[44.5rem] justify-between">
         <div className="pt-10">
           <h1 className="text-[2.5rem] font-bold">{pageTitle}</h1>
         </div>
@@ -46,7 +49,7 @@ const DashboardHeader: React.FC<{ pathname: string }> = ({ pathname }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-row pt-8 pl-28 pr-32">
+      <div className="flex flex-row pt-8 pl-[6.5rem] pr-32">
         <Image
           src={SearchIcon}
           alt="Search icon"
@@ -60,11 +63,13 @@ const DashboardHeader: React.FC<{ pathname: string }> = ({ pathname }) => {
           className="backdrop-blur bg-transparent py-2 pl-4 pr-10 mt-3 text-base font-medium outline-none text-muted-foreground"
         />
       </div>
-      <Image
-        src={AvatarPlaceholder}
-        alt="Avatar"
-        className="mt-14 w-[56px] h-[56px]"
-      />
+      <a href="/dashboard/profile">
+        <img
+          src={user && user.picture}
+          alt="Avatar"
+          className="mt-14 w-[56px] h-[56px] rounded-full"
+        />
+      </a>
     </div>
   );
 };
