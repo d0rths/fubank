@@ -3,6 +3,7 @@ import CreditImg from "@/public/Credit-card.png";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const Header = () => {
   return (
@@ -22,12 +23,12 @@ const Header = () => {
           безтурботний банкінг з Financial Universal Bank.
         </p>
         <div className="flex gap-x-10">
-          <Link href="/register" className="flex items-center">
+          <a href="/api/auth/login" className="flex items-center">
             <Button className="text-2xl px-[4rem] py-[2.15rem]">
               <p className="mb-1">Почати</p>
             </Button>
-          </Link>
-          <Link href="/" className="flex items-center">
+          </a>
+          <a href="#More" className="flex items-center">
             <Button
               variant="outline"
               className="px-12 py-8 flex items-center justify-center text-2xl"
@@ -35,7 +36,7 @@ const Header = () => {
               <p className="mb-1">Більше</p>
               <ArrowRight className="w-5 h-5 ml-4" />
             </Button>{" "}
-          </Link>
+          </a>
         </div>
       </div>
       <div>

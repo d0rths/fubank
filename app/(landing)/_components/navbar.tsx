@@ -4,8 +4,14 @@ import Logoimg from "@/public/Logo.svg";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { redirect } from "next/navigation"; // Імпорт хука навігації
 
 export const Navbar = () => {
+  const { user, isLoading } = useUser();
+
+  if (!isLoading && user) {
+    redirect(`/dashboard`);
+  }
   return (
     <nav
       className="flex justify-between items-center bg-light px-[7.5rem] py-16"
@@ -16,10 +22,10 @@ export const Navbar = () => {
           <Image src={Logoimg} alt="Logo" width={280} height={65} />
         </div>
         <div className="flex gap-x-16">
-          <Link href="/" className="text-2xl">
+          <Link href="#More" className="text-2xl">
             Про нас
           </Link>
-          <Link href="#contacts" className="text-2xl">
+          <Link href="#Contacts" className="text-2xl">
             Контакти
           </Link>
         </div>

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   return (
-    <footer id="contacts" className="flex bg-light pl-[7.5rem] justify-between">
+    <footer id="Contacts" className="flex bg-light pl-[7.5rem] justify-between">
       <div>
         <div className="flex flex-row w-2/5">
           <div className="flex flex-col pt-[7.5rem] min-w-80">

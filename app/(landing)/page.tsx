@@ -20,7 +20,7 @@ const LangingPage = () => {
     <div>
       <Header />
       <main>
-        <div className="px-[7.5rem] py-[7.5rem]">
+        <div className="px-[7.5rem] py-[7.5rem]" id="More">
           <h2 className="text-6xl font-bold">Сервіси</h2>
           <div className="flex flex-row py-[7.5rem] flex-wrap gap-y-20">
             <div>

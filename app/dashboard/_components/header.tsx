@@ -40,7 +40,7 @@ const DashboardHeader: React.FC<{ pathname: string }> = ({ pathname }) => {
         </div>
         <div className="pt-12 pl-8">
           <p className="text-base font-medium text-custom text-right">
-            Rostyslav Hubariev
+            {user && user.name}
           </p>
           <div className={bebasNeue.className}>
             <h2 className="text-[2.5rem] leading-tight text-right">
@@ -63,11 +63,12 @@ const DashboardHeader: React.FC<{ pathname: string }> = ({ pathname }) => {
           className="backdrop-blur bg-transparent py-2 pl-4 pr-10 mt-3 text-base font-medium outline-none text-muted-foreground"
         />
       </div>
+
       <a href="/dashboard/profile">
         <img
-          src={user && user.picture}
+          src={user && user.picture ? user.picture : undefined}
           alt="Avatar"
-          className="mt-14 w-[56px] h-[56px] rounded-full"
+          className="mt-14 w-[52px] h-[52px] rounded-full"
         />
       </a>
     </div>
