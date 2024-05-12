@@ -44,7 +44,7 @@ const DashboardHeader: React.FC<{ pathname: string }> = ({ pathname }) => {
           </p>
           <div className={bebasNeue.className}>
             <h2 className="text-[2.5rem] leading-tight text-right">
-              1234567890
+              1234 5678 9012 3456
             </h2>
           </div>
         </div>

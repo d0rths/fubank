@@ -2,12 +2,14 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import EyeCrossed from "@/public/eye-crossed.svg";
-import Eye from "@/public/eye.svg";
+import EyeOpen from "@/public/eye.svg";
 import IconLogo from "@/public/Icon_logo.svg";
 import { Bebas_Neue } from "next/font/google";
 import { ArrowLeft, ArrowRight, Plus } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
+import Transactions from "./_components/transactions";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -15,6 +17,24 @@ const bebasNeue = Bebas_Neue({
 });
 
 const DashboardPage = () => {
+  let numbers = [10000, 15000, 5000, 24000, 13000];
+  const [showNumbers, setShowNumbers] = useState(true);
+
+  const toggleNumbers = () => {
+    setShowNumbers(!showNumbers);
+  };
+
+  const hideNumbers = () => {
+    return showNumbers
+      ? numbers.map((number) =>
+          number.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
+        )
+      : numbers.map(() => "XXXXX");
+  };
+
   const pathname = usePathname();
   return (
     <div className="flex flex-row pt-20">
@@ -22,10 +42,15 @@ const DashboardPage = () => {
         <div>
           <div className="flex flex-row justify-between pb-5">
             <h2 className="text-2xl font-medium">Баланс Поточного Рахунку</h2>
-            <Button className="bg-customGray py-6 hover:bg-[#d3d2d2]">
+            <Button
+              className="bg-customGray py-6 hover:bg-[#d3d2d2]"
+              onClick={toggleNumbers}
+            >
               <Image
-                src={EyeCrossed}
-                alt="Hide account balance"
+                src={showNumbers ? EyeOpen : EyeCrossed}
+                alt={
+                  showNumbers ? "Hide account balance" : "Show account balance"
+                }
                 width={16}
                 height={16}
               />
@@ -41,19 +66,19 @@ const DashboardPage = () => {
                   Поточний баланс
                 </p>
                 <div className={bebasNeue.className}>
-                  <h2 className="text-[2rem]">10,000.00 UAH</h2>
+                  <h2 className="text-[2rem]">{hideNumbers()[0]} UAH</h2>
                 </div>
               </div>
               <div className="w-1/3">
                 <p className="text-link text-base font-medium">Прибуток</p>
                 <div className={bebasNeue.className}>
-                  <h2 className="text-[2rem]">15,000.00 UAH</h2>
+                  <h2 className="text-[2rem]">{hideNumbers()[1]} UAH</h2>
                 </div>
               </div>
               <div className="w-1/3">
                 <p className="text-link text-base font-medium">Витрати</p>
                 <div className={bebasNeue.className}>
-                  <h2 className="text-[2rem]">5000.00 UAH</h2>
+                  <h2 className="text-[2rem]">{hideNumbers()[2]} UAH</h2>
                 </div>
               </div>
             </div>
@@ -62,51 +87,36 @@ const DashboardPage = () => {
         <div>
           <div className="flex flex-row justify-between pb-5 pt-16">
             <h2 className="text-2xl font-medium">Рахунки</h2>
-            <Button className="bg-customGray py-6 hover:bg-[#d3d2d2]">
-              <Plus width={16} height={16} className="text-inactive" />
-            </Button>
+            <Link href="/dashboard/accounts">
+              <Button className="bg-customGray py-6 hover:bg-[#d3d2d2]">
+                <Plus width={16} height={16} className="text-inactive" />
+              </Button>
+            </Link>
           </div>
           <div className="flex flex-row justify-between">
             <div className="bg-light rounded-xl pl-8 py-10 w-[14rem]">
               <p className="text-link text-base font-medium">Основний баланс</p>
               <div className={bebasNeue.className}>
-                <h2 className="text-[2rem]">10,000.00 UAH</h2>
+                <h2 className="text-[2rem]">{hideNumbers()[0]} UAH</h2>
               </div>
             </div>
             <div className="bg-light rounded-xl pl-8 py-10 w-[14rem]">
               <p className="text-link text-base font-medium">На відпустку</p>
               <div className={bebasNeue.className}>
-                <h2 className="text-[2rem]">24,000.00 UAH</h2>
+                <h2 className="text-[2rem]">{hideNumbers()[3]} UAH</h2>
               </div>
             </div>
             <div className="bg-light rounded-xl pl-8 py-10 w-[14rem]">
               <p className="text-link text-base font-medium">Збереження</p>
               <div className={bebasNeue.className}>
-                <h2 className="text-[2rem]">13,000.00 UAH</h2>
+                <h2 className="text-[2rem]">{hideNumbers()[4]} UAH</h2>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div>
-        <div className="flex flex-row justify-between">
-          <h2 className="text-2xl font-medium">Транзакції</h2>
-          <Link
-            href="/dashboard/transactions"
-            className="flex flex-row"
-            style={{
-              color:
-                pathname === "/dashboard/transactions" ? "#33B786" : "#555555",
-            }}
-          >
-            <ArrowRight
-              width={26}
-              height={26}
-              className="mt-1 text-custom ml-80"
-            />
-          </Link>
-        </div>
-        <div></div>
+        <Transactions />
       </div>
     </div>
   );

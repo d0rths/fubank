@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Service1 from "@/public/service1.svg";
 import Service2 from "@/public/service2.svg";
@@ -14,8 +15,15 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Header from "./_components/header";
 import Footer from "./_components/footer";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { redirect } from "next/navigation";
 
 const LangingPage = () => {
+  const { user, isLoading } = useUser();
+
+  if (!isLoading && user) {
+    redirect(`/dashboard`);
+  }
   return (
     <div>
       <Header />

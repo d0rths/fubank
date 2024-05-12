@@ -3,15 +3,8 @@ import Image from "next/image";
 import Logoimg from "@/public/Logo.svg";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@auth0/nextjs-auth0/client";
-import { redirect } from "next/navigation"; // Імпорт хука навігації
 
 export const Navbar = () => {
-  const { user, isLoading } = useUser();
-
-  if (!isLoading && user) {
-    redirect(`/dashboard`);
-  }
   return (
     <nav
       className="flex justify-between items-center bg-light px-[7.5rem] py-16"

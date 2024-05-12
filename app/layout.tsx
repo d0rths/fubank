@@ -1,7 +1,8 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Exo_2 } from "next/font/google";
-import "./globals.css";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
+import ConvexClientProvider from "./ConvexClientProvider";
 
 const sans = Exo_2({ subsets: ["cyrillic-ext", "latin"] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="uk">
       <UserProvider>
-        <body className={sans.className}>{children}</body>
+        <ConvexClientProvider>
+          <body className={sans.className}>{children}</body>
+        </ConvexClientProvider>
       </UserProvider>
     </html>
   );
