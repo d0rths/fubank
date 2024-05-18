@@ -4,9 +4,12 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Bebas_Neue } from "next/font/google";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
+import { useAlert } from "@/hooks/use-alert";
+import { useState } from "react";
+import { useSuccess } from "@/hooks/use-success";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -15,14 +18,96 @@ const bebasNeue = Bebas_Neue({
 
 export const TransferModal = () => {
   const transfer = useTransfer();
+  const alert = useAlert();
+  const success = useSuccess();
 
   const { user } = useUser();
   const users = useQuery(api.users.getById);
+
+  const mutateTransfer = useMutation(api.transactions.createTransfer);
+  const updateBalance = useMutation(api.users.updateBalance);
 
   const authenticatedUserEmail = user && user?.email;
   const authenticatedUser = users?.find(
     (user) => user.email === authenticatedUserEmail
   );
+
+  const [cardNumber, setCardNumber] = useState("");
+  const [amount, setAmount] = useState(100);
+
+  const transferUser = users?.find((users) => users.card === cardNumber);
+
+  const makeTransfer = () => {
+    if (!cardNumber) {
+      alert.onOpen("Введіть номер картки.");
+    } else if (
+      authenticatedUser?.balance &&
+      amount > authenticatedUser.balance
+    ) {
+      alert.onOpen("Недостатньо коштів на рахунку.");
+    } else if (cardNumber === authenticatedUser?.card) {
+      alert.onOpen("Неможливо зробити переказ.");
+    } else {
+      mutateTransfer({
+        email: user?.email || "",
+        username: authenticatedUser?.username || "",
+        from: authenticatedUser?.card || "",
+        to: cardNumber,
+        date: getCurrentDate(),
+        amount: amount,
+        status: "Завершено",
+        type: "Переказ",
+      });
+      updateUsersBalance();
+      updateTransferUserBalance();
+      transfer.onClose();
+      success.onOpen(
+        amount.toString(),
+        authenticatedUser?.card || "",
+        cardNumber.toString()
+      );
+    }
+  };
+
+  const updateUsersBalance = () => {
+    if (authenticatedUser) {
+      const updatedBalance = authenticatedUser?.balance - amount;
+      const updatedIncome = authenticatedUser?.income;
+      const updatedExpence = authenticatedUser?.expence + amount;
+
+      updateBalance({
+        id: authenticatedUser._id,
+        balance: updatedBalance,
+        income: updatedIncome,
+        expence: updatedExpence,
+      });
+    }
+  };
+
+  const updateTransferUserBalance = () => {
+    if (transferUser) {
+      const updatedBalance = transferUser?.balance + amount;
+      const updatedIncome = transferUser?.income + amount;
+      const updatedExpence = transferUser?.expence;
+
+      updateBalance({
+        id: transferUser._id,
+        balance: updatedBalance,
+        income: updatedIncome,
+        expence: updatedExpence,
+      });
+    }
+  };
+
+  const getCurrentDate = () => {
+    const date = new Date();
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${day}.${month}.${year}`;
+  };
   const authenticatedUserBalance = authenticatedUser?.balance.toLocaleString(
     "en-Us",
     {
@@ -55,6 +140,8 @@ export const TransferModal = () => {
                   bebasNeue.className
                 )}
                 maxLength={16}
+                value={cardNumber}
+                onChange={(e) => setCardNumber(e.target.value)}
               />
             </div>
           </div>
@@ -70,9 +157,11 @@ export const TransferModal = () => {
               )}
               maxLength={6}
               defaultValue={100}
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
             />
           </div>
-          <Button onClick={transfer.onClose} className="mt-2 w-full">
+          <Button onClick={makeTransfer} className="mt-2 w-full">
             Продовжити
           </Button>
           <div className="pl-16"></div>

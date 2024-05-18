@@ -37,6 +37,8 @@ const Transfer = () => {
       amount > authenticatedUser.balance
     ) {
       alert.onOpen("Недостатньо коштів на рахунку.");
+    } else if (cardNumber === authenticatedUser?.card) {
+      alert.onOpen("Неможливо зробити переказ.");
     } else {
       mutateTransfer({
         email: user?.email || "",
@@ -50,7 +52,11 @@ const Transfer = () => {
       });
       updateUsersBalance();
       updateTransferUserBalance();
-      success.onOpen(amount.toString());
+      success.onOpen(
+        amount.toString(),
+        authenticatedUser?.card || "",
+        cardNumber.toString()
+      );
     }
   };
 
