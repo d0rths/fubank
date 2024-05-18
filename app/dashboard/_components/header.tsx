@@ -58,7 +58,7 @@ const DashboardHeader: React.FC<{ pathname: string }> = ({ pathname }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-row pt-8 pl-[6.5rem] pr-32">
+      {/* <div className="flex flex-row pt-8 pl-[6.5rem] pr-32">
         <Image
           src={SearchIcon}
           alt="Search icon"
@@ -71,9 +71,9 @@ const DashboardHeader: React.FC<{ pathname: string }> = ({ pathname }) => {
           placeholder="Пошук"
           className="backdrop-blur bg-transparent py-2 pl-4 pr-10 mt-3 text-base font-medium outline-none text-muted-foreground"
         />
-      </div>
+      </div> */}
 
-      <a href="/dashboard/profile">
+      <a href="/dashboard/profile" className="pl-[32.5rem]">
         <img
           src={user && user.picture ? user.picture : undefined}
           alt="Avatar"

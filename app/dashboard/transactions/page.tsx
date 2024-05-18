@@ -19,59 +19,7 @@ const Transactions = () => {
   return (
     <div className="pt-20">
       <div>
-        <div className="flex flex-row justify-between">
-          <div className="bg-light rounded-xl px-8 py-8 w-[23rem]">
-            <div className="flex flex-row justify-between">
-              <p className="text-link text-base font-medium">Основний Баланс</p>
-              <Link href="" className="pt-1">
-                <Image
-                  src={EyeCrossed}
-                  alt="Hide account balance"
-                  width={16}
-                  height={16}
-                />
-              </Link>
-            </div>
-            <div className={bebasNeue.className}>
-              <h2 className="text-[2rem]">10,000.00 UAH</h2>
-            </div>
-          </div>
-          <div className="bg-light rounded-xl px-8 py-8 w-[23rem]">
-            <div className="flex flex-row justify-between">
-              <p className="text-link text-base font-medium">На Відпустку</p>
-              <Link href="" className="pt-1">
-                <Image
-                  src={EyeCrossed}
-                  alt="Hide account balance"
-                  width={16}
-                  height={16}
-                />
-              </Link>
-            </div>
-            <div className={bebasNeue.className}>
-              <h2 className="text-[2rem]">24,000.00 UAH</h2>
-            </div>
-          </div>
-          <div className="bg-light rounded-xl px-8 py-8 w-[23rem]">
-            <div className="flex flex-row justify-between">
-              <p className="text-link text-base font-medium">Збереження</p>
-              <Link href="" className="pt-1">
-                <Image
-                  src={EyeCrossed}
-                  alt="Hide account balance"
-                  width={16}
-                  height={16}
-                />
-              </Link>{" "}
-            </div>
-            <div className={bebasNeue.className}>
-              <h2 className="text-[2rem]">13,000.00 UAH</h2>
-            </div>
-          </div>
-        </div>
-        <div className="pt-16">
-          <TransactionsTable />
-        </div>
+        <TransactionsTable />
       </div>
     </div>
   );

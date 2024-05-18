@@ -3,6 +3,12 @@ import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect, useState } from "react";
+import { Bebas_Neue } from "next/font/google";
+
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 const TransactionsTable = () => {
   const pathname = usePathname();
@@ -32,6 +38,17 @@ const TransactionsTable = () => {
     <div className={`${tableHeight} p-2 overflow-auto`}>
       <div>
         <table className="w-full mt-4">
+          {pathname === "/dashboard/transactions" && (
+            <thead>
+              <tr className="text-xl">
+                <th className="text-left">Відправник</th>
+                <th className="text-left">Тип</th>
+                <th className="text-left">Дата</th>
+                <th className="text-left">Сума</th>
+                <th>Статус</th>
+              </tr>
+            </thead>
+          )}
           <tbody>
             {authenticatedUserTransactions
               ?.slice()
@@ -50,7 +67,6 @@ const TransactionsTable = () => {
                             : authenticatedUser?.card === to
                               ? "green"
                               : "black",
-                        fontFamily: "Bebas Neue, Arial, sans-serif",
                       }}
                     >
                       {authenticatedUser?.card === from ? "-" : "+"}
