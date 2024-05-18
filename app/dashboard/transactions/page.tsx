@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import EyeCrossed from "@/public/eye-crossed.svg";
 import Eye from "@/public/eye.svg";
 import Image from "next/image";
+import TransactionsTable from "../_components/transactionsTable";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -68,7 +69,9 @@ const Transactions = () => {
             </div>
           </div>
         </div>
-        <div></div>
+        <div className="pt-16">
+          <TransactionsTable />
+        </div>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ const Balance = () => {
     Array(initialNumbers.length).fill(false)
   );
 
-  const toggleNumberVisibility = (index) => {
+  const toggleNumberVisibility = (index: number) => {
     const newHiddenNumbers = [...hiddenNumbers];
     newHiddenNumbers[index] = !newHiddenNumbers[index];
     setHiddenNumbers(newHiddenNumbers);

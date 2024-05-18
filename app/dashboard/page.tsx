@@ -5,11 +5,16 @@ import EyeCrossed from "@/public/eye-crossed.svg";
 import EyeOpen from "@/public/eye.svg";
 import IconLogo from "@/public/Icon_logo.svg";
 import { Bebas_Neue } from "next/font/google";
-import { ArrowLeft, ArrowRight, Plus } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
-import Transactions from "./_components/transactions";
+import TransactionsTable from "./_components/transactionsTable";
+import TransferCard from "./_components/transferCard";
+import { api } from "@/convex/_generated/api";
+import { useQuery } from "convex/react";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { useTransfer } from "@/hooks/use-transfer";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -17,7 +22,22 @@ const bebasNeue = Bebas_Neue({
 });
 
 const DashboardPage = () => {
-  let numbers = [10000, 15000, 5000, 24000, 13000];
+  const { user } = useUser();
+  const users = useQuery(api.users.getById);
+
+  const authenticatedUserEmail = user && user?.email;
+  const authenticatedUser = users?.find(
+    (user) => user.email === authenticatedUserEmail
+  );
+  const authenticatedUserBalance = authenticatedUser?.balance;
+  const authenticatedUserIncome = authenticatedUser?.income;
+  const authenticatedUserExpence = authenticatedUser?.expence;
+
+  let numbers = [
+    authenticatedUserBalance,
+    authenticatedUserIncome,
+    authenticatedUserExpence,
+  ];
   const [showNumbers, setShowNumbers] = useState(true);
 
   const toggleNumbers = () => {
@@ -27,7 +47,7 @@ const DashboardPage = () => {
   const hideNumbers = () => {
     return showNumbers
       ? numbers.map((number) =>
-          number.toLocaleString("en-US", {
+          number?.toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })
@@ -36,6 +56,8 @@ const DashboardPage = () => {
   };
 
   const pathname = usePathname();
+
+  const transfer = useTransfer();
   return (
     <div className="flex flex-row pt-20">
       <div className="pr-[6.5rem]">
@@ -86,37 +108,38 @@ const DashboardPage = () => {
         </div>
         <div>
           <div className="flex flex-row justify-between pb-5 pt-16">
-            <h2 className="text-2xl font-medium">Рахунки</h2>
-            <Link href="/dashboard/accounts">
-              <Button className="bg-customGray py-6 hover:bg-[#d3d2d2]">
-                <Plus width={16} height={16} className="text-inactive" />
-              </Button>
-            </Link>
+            <h2 className="text-2xl font-medium">Переказ</h2>
+            <Button
+              onClick={transfer.onOpen}
+              className="bg-customGray py-6 hover:bg-[#d3d2d2]"
+            >
+              <Plus width={16} height={16} className="text-inactive" />
+            </Button>
           </div>
-          <div className="flex flex-row justify-between">
-            <div className="bg-light rounded-xl pl-8 py-10 w-[14rem]">
-              <p className="text-link text-base font-medium">Основний баланс</p>
-              <div className={bebasNeue.className}>
-                <h2 className="text-[2rem]">{hideNumbers()[0]} UAH</h2>
-              </div>
-            </div>
-            <div className="bg-light rounded-xl pl-8 py-10 w-[14rem]">
-              <p className="text-link text-base font-medium">На відпустку</p>
-              <div className={bebasNeue.className}>
-                <h2 className="text-[2rem]">{hideNumbers()[3]} UAH</h2>
-              </div>
-            </div>
-            <div className="bg-light rounded-xl pl-8 py-10 w-[14rem]">
-              <p className="text-link text-base font-medium">Збереження</p>
-              <div className={bebasNeue.className}>
-                <h2 className="text-[2rem]">{hideNumbers()[4]} UAH</h2>
-              </div>
-            </div>
+          <div>
+            <TransferCard />
           </div>
         </div>
       </div>
       <div>
-        <Transactions />
+        <div className="flex flex-row justify-between">
+          <h2 className="text-2xl font-medium">Транзакції</h2>
+          <Link
+            href="/dashboard/transactions"
+            className="flex flex-row"
+            style={{
+              color:
+                pathname === "/dashboard/transactions" ? "#33B786" : "#555555",
+            }}
+          >
+            <ArrowRight
+              width={26}
+              height={26}
+              className="mt-1 text-custom ml-80"
+            />
+          </Link>
+        </div>
+        <TransactionsTable />
       </div>
     </div>
   );

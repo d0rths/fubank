@@ -8,6 +8,10 @@ import EyeCrossed from "@/public/eye-crossed.svg";
 import Eye from "@/public/eye.svg";
 import { usePathname } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+import TransactionsTable from "../_components/transactionsTable";
+import { SetStateAction, useEffect, useState } from "react";
+import { api } from "@/convex/_generated/api";
+import { useMutation, useQuery } from "convex/react";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -15,8 +19,68 @@ const bebasNeue = Bebas_Neue({
 });
 
 const Profile = () => {
-  const { user } = useUser();
   const pathname = usePathname();
+  const { user } = useUser();
+  const users = useQuery(api.users.getById);
+
+  const updateUserPhone = useMutation(api.users.updateUserPhone);
+  const updateUsername = useMutation(api.users.updateUsername);
+  const [usernameChanged, setUsernameChanged] = useState(false);
+  const [phoneNumberChanged, setPhoneNumberChanged] = useState(false);
+
+  const authenticatedUserEmail = user?.email;
+  const authenticatedUser = users?.find(
+    (user) => user.email === authenticatedUserEmail
+  );
+
+  const [userName, setUserName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [hasLetters, setHasLetters] = useState(false);
+
+  const handleInputUsernameChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setUserName(e.target.value);
+    setUsernameChanged(true);
+  };
+  const handleInputPhoneChange = (e: {
+    target: { value: SetStateAction<any> };
+  }) => {
+    const inputValue = e.target.value;
+    if (/^\d*$/.test(inputValue)) {
+      setPhoneNumber(inputValue);
+      setHasLetters(false);
+      setPhoneNumberChanged(true);
+    } else {
+      setHasLetters(true);
+    }
+  };
+
+  const handleSaveButtonClick = () => {
+    if (authenticatedUserEmail) {
+      if (!users) return;
+
+      const authenticatedUser = users.find(
+        (user) => user.email === authenticatedUserEmail
+      );
+
+      if (authenticatedUser) {
+        if (usernameChanged) {
+          updateUsername({
+            id: authenticatedUser._id,
+            username: userName,
+          });
+        }
+
+        if (phoneNumberChanged) {
+          updateUserPhone({
+            id: authenticatedUser._id,
+            phone: phoneNumber,
+          });
+        }
+      }
+    }
+  };
 
   return (
     <div className="pt-12 flex flex-row justify-between">
@@ -26,7 +90,14 @@ const Profile = () => {
           alt="Avatar"
           className="mt-10 w-[160px] h-[160px] rounded-full"
         />
-        <h1 className="text-[2rem] py-5 font-bold">{user && user.name}</h1>
+        <input
+          type="tel"
+          placeholder={""}
+          className="rounded-lg text-center py-5 w-2/3 mt-3 text-[2rem] font-bold outline-none"
+          defaultValue={authenticatedUser?.username}
+          onChange={handleInputUsernameChange}
+          maxLength={30}
+        />
         <div className="pt-12 w-1/2">
           <p className="text-base font-medium text-custom">Пошта</p>
           <h2 className="text-2xl font-bold pb-5">{user && user.email}</h2>
@@ -34,18 +105,22 @@ const Profile = () => {
         </div>
         <div className="pt-5 w-1/2">
           <p className="text-base font-medium text-custom">Номер Телефону</p>
-          <h2 className="text-2xl font-bold pb-5">+380 63 672 7712</h2>
+          <input
+            type="tel"
+            placeholder={"Введіть ваш номер телефону"}
+            className={`rounded-lg py-5 w-full mt-3 text-2xl font-bold outline-none ${hasLetters ? "bg-red-100" : ""}`}
+            defaultValue={authenticatedUser?.phone}
+            onChange={handleInputPhoneChange}
+            maxLength={10}
+          />
           <hr></hr>
         </div>
-        <div className="pt-5 w-1/2">
-          <p className="text-base font-medium text-custom">Стать</p>
-          <h2 className="text-2xl font-bold pb-5">Чол.</h2>
-        </div>
-        <a href="/api/auth/logout" className="w-1/2">
-          <Button className="text-2xl py-7 mt-7 mb-10 w-full text-muted-foreground bg-customGray hover:bg-[#d3d2d2]">
-            Вийти з системи
-          </Button>
-        </a>
+        <button
+          className="w-1/2 rounded-lg text-2xl py-4 mt-7 mb-10 text-muted-foreground bg-customGray hover:bg-[#d3d2d2]"
+          onClick={handleSaveButtonClick}
+        >
+          Зберегти
+        </button>
       </div>
       <div>
         <div>
@@ -67,26 +142,28 @@ const Profile = () => {
           </div>
         </div>
         <div>
-          <div className="flex flex-row justify-between pt-20">
-            <h2 className="text-2xl font-medium">Транзакції</h2>
-            <Link
-              href="/dashboard/transactions"
-              className="flex flex-row"
-              style={{
-                color:
-                  pathname === "/dashboard/transactions"
-                    ? "#33B786"
-                    : "#555555",
-              }}
-            >
-              <ArrowRight
-                width={26}
-                height={26}
-                className="mt-1 text-custom ml-80"
-              />
-            </Link>
+          <div className="pt-16">
+            <div className="flex flex-row justify-between">
+              <h2 className="text-2xl font-medium">Транзакції</h2>
+              <Link
+                href="/dashboard/transactions"
+                className="flex flex-row"
+                style={{
+                  color:
+                    pathname === "/dashboard/transactions"
+                      ? "#33B786"
+                      : "#555555",
+                }}
+              >
+                <ArrowRight
+                  width={26}
+                  height={26}
+                  className="mt-1 text-custom ml-80"
+                />
+              </Link>
+            </div>
+            <TransactionsTable />
           </div>
-          <div></div>
         </div>
       </div>
     </div>

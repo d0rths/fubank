@@ -17,13 +17,56 @@ import Header from "./_components/header";
 import Footer from "./_components/footer";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { redirect } from "next/navigation";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useEffect } from "react";
 
 const LangingPage = () => {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
+  const users = useQuery(api.users.getById);
 
-  if (!isLoading && user) {
-    redirect(`/dashboard`);
+  const mutateUser = useMutation(api.users.createUser);
+
+  function generateRandomCardNumber() {
+    let cardNumber = "";
+    for (let i = 0; i < 16; i++) {
+      cardNumber += Math.floor(Math.random() * 10);
+    }
+    return cardNumber;
   }
+
+  const authenticatedUserEmail = user?.email;
+
+  useEffect(() => {
+    if (authenticatedUserEmail) {
+      if (!users) return;
+
+      const authenticatedUserExists = users.find(
+        (user) => user.email === authenticatedUserEmail
+      );
+
+      if (!authenticatedUserExists) {
+        console.log("Додаємо нового користувача до таблиці");
+        mutateUser({
+          email: authenticatedUserEmail,
+          username: user?.name || "",
+          user_id: user?.sid ? user.sid.toString() : "",
+          card: generateRandomCardNumber(),
+          phone: "0",
+          balance: 0,
+          income: 0,
+          expence: 0,
+        });
+        redirect(`/dashboard`);
+      } else {
+        console.log("Користувач з таким email вже існує");
+        redirect(`/dashboard`);
+      }
+    } else {
+      console.log("Електронна адреса користувача не визначена");
+    }
+  }, [authenticatedUserEmail, mutateUser, user, users]);
+
   return (
     <div>
       <Header />

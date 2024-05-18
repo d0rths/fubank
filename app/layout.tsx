@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Exo_2 } from "next/font/google";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import ConvexClientProvider from "./ConvexClientProvider";
+import { ModalProvider } from "@/components/providers/modal-provider";
 
 const sans = Exo_2({ subsets: ["cyrillic-ext", "latin"] });
 
@@ -19,9 +20,12 @@ export default function RootLayout({
   return (
     <html lang="uk">
       <UserProvider>
-        <ConvexClientProvider>
-          <body className={sans.className}>{children}</body>
-        </ConvexClientProvider>
+        <body className={sans.className}>
+          <ConvexClientProvider>
+            <ModalProvider />
+            {children}
+          </ConvexClientProvider>
+        </body>
       </UserProvider>
     </html>
   );

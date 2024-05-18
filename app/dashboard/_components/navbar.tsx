@@ -13,9 +13,13 @@ import NavImage4Alt from "@/public/dashboard_nav_4_alt.svg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { useTransfer } from "@/hooks/use-transfer";
+import { Button } from "@/components/ui/button";
 
 export const Navigation = () => {
   const pathname = usePathname();
+
+  const transfer = useTransfer();
 
   return (
     <div className="pl-[7.5rem] pr-[6.5rem] w-max">
@@ -37,19 +41,20 @@ export const Navigation = () => {
           <p className="text-xl font-medium ml-10">Огляд</p>
         </Link>
         <Link
-          href="/dashboard/accounts"
+          href=""
           className="flex flex-row"
           style={{
-            color: pathname === "/dashboard/accounts" ? "#33B786" : "#555555",
+            color: pathname === "/dashboard/transfer" ? "#33B786" : "#555555",
           }}
+          onClick={transfer.onOpen}
         >
           <Image
-            src={pathname === "/dashboard/accounts" ? NavImage2Alt : NavImage2}
+            src={pathname === "/dashboard/transfer" ? NavImage2Alt : NavImage2}
             alt="Navigation bar image 2"
             width={32}
             height={32}
           />
-          <p className="text-xl font-medium ml-10">Рахунки</p>
+          <p className="text-xl font-medium ml-10">Переказ</p>
         </Link>
         <Link
           href="/dashboard/transactions"
