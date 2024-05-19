@@ -27,11 +27,13 @@ const Transfer = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [amount, setAmount] = useState(100);
 
-  const transferUser = users?.find((users) => users.card === cardNumber);
+  const transferUserExists = users?.find((users) => users.card === cardNumber);
 
   const makeTransfer = () => {
     if (!cardNumber) {
       alert.onOpen("Введіть номер картки.");
+    } else if (!transferUserExists) {
+      alert.onOpen("Користувача з таким номером картки не існує.");
     } else if (
       authenticatedUser?.balance &&
       amount > authenticatedUser.balance
@@ -76,13 +78,13 @@ const Transfer = () => {
   };
 
   const updateTransferUserBalance = () => {
-    if (transferUser) {
-      const updatedBalance = transferUser?.balance + amount;
-      const updatedIncome = transferUser?.income + amount;
-      const updatedExpence = transferUser?.expence;
+    if (transferUserExists) {
+      const updatedBalance = transferUserExists?.balance + amount;
+      const updatedIncome = transferUserExists?.income + amount;
+      const updatedExpence = transferUserExists?.expence;
 
       updateBalance({
-        id: transferUser._id,
+        id: transferUserExists._id,
         balance: updatedBalance,
         income: updatedIncome,
         expence: updatedExpence,

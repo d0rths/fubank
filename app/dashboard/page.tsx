@@ -8,7 +8,7 @@ import { Bebas_Neue } from "next/font/google";
 import { ArrowRight, Plus } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TransactionsTable from "./_components/transactionsTable";
 import TransferCard from "./_components/transferCard";
 import { api } from "@/convex/_generated/api";
@@ -24,6 +24,14 @@ const bebasNeue = Bebas_Neue({
 const DashboardPage = () => {
   const { user } = useUser();
   const users = useQuery(api.users.getById);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (users) {
+      setLoading(false);
+    }
+  }, [users]);
 
   const authenticatedUserEmail = user && user?.email;
   const authenticatedUser = users?.find(
@@ -58,6 +66,16 @@ const DashboardPage = () => {
   const pathname = usePathname();
 
   const transfer = useTransfer();
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-light z-50">
+        <div className="loader">
+          <Image src={IconLogo} alt="Loading" width={100} height={100} />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-row pt-20">
       <div className="pr-[6.5rem]">
