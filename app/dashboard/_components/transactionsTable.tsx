@@ -2,13 +2,6 @@ import { usePathname } from "next/navigation";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useEffect, useState } from "react";
-import { Bebas_Neue } from "next/font/google";
-
-const bebasNeue = Bebas_Neue({
-  subsets: ["latin"],
-  weight: "400",
-});
 
 const TransactionsTable = () => {
   const pathname = usePathname();
@@ -27,12 +20,19 @@ const TransactionsTable = () => {
   );
 
   const fourthColumnClass =
-    pathname === "/dashboard" || pathname === "/dashboard/profile"
+    pathname === "/dashboard" ||
+    pathname === "/dashboard/profile" ||
+    pathname === "/dashboard/accounts"
       ? "text-right"
       : "text-left";
   const shouldShowSecondColumn =
-    pathname !== "/dashboard" && pathname !== "/dashboard/profile";
-  const tableHeight = pathname === "/dashboard" ? "h-[41rem]" : "h-[31rem]";
+    pathname !== "/dashboard" &&
+    pathname !== "/dashboard/profile" &&
+    pathname !== "/dashboard/accounts";
+  const tableHeight =
+    pathname === "/dashboard" || pathname === "/dashboard/accounts"
+      ? "h-[41rem]"
+      : "h-[31rem]";
 
   return (
     <div className={`${tableHeight} p-2 overflow-auto`}>
@@ -70,7 +70,10 @@ const TransactionsTable = () => {
                       }}
                     >
                       {authenticatedUser?.card === from ? "-" : "+"}
-                      {amount}
+                      {amount.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </span>
                   </td>
                   {shouldShowSecondColumn && (

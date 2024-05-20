@@ -65,13 +65,11 @@ const Transfer = () => {
   const updateUsersBalance = () => {
     if (authenticatedUser) {
       const updatedBalance = authenticatedUser?.balance - amount;
-      const updatedIncome = authenticatedUser?.income;
       const updatedExpence = authenticatedUser?.expence + amount;
 
       updateBalance({
         id: authenticatedUser._id,
         balance: updatedBalance,
-        income: updatedIncome,
         expence: updatedExpence,
       });
     }
@@ -80,13 +78,11 @@ const Transfer = () => {
   const updateTransferUserBalance = () => {
     if (transferUserExists) {
       const updatedBalance = transferUserExists?.balance + amount;
-      const updatedIncome = transferUserExists?.income + amount;
       const updatedExpence = transferUserExists?.expence;
 
       updateBalance({
         id: transferUserExists._id,
         balance: updatedBalance,
-        income: updatedIncome,
         expence: updatedExpence,
       });
     }
@@ -114,13 +110,13 @@ const Transfer = () => {
   const success = useSuccess();
   return (
     <div className="flex flex-row bg-light rounded-xl pl-10 py-8 w-full">
-      <div>
+      <div className="min-w-[12rem] max-w-[12rem]">
         <p className="text-link text-base font-medium">Баланс</p>
         <div className={bebasNeue.className}>
           <h2 className="text-[2rem]">{authenticatedUserBalance} UAH</h2>
         </div>
       </div>
-      <div className="pl-16">
+      <div className="pl-8">
         <div>
           <p className="text-link text-base font-medium">На картку</p>
           <div className="flex flex-row">

@@ -82,6 +82,11 @@ const Profile = () => {
     }
   };
 
+  const formattedBalance = authenticatedUser?.balance.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
   return (
     <div className="pt-12 flex flex-row justify-between">
       <div className="flex flex-col items-center bg-white w-[44.5rem] rounded-xl mr-[6.5rem]">
@@ -137,7 +142,7 @@ const Profile = () => {
               </Link>
             </div>
             <div className={bebasNeue.className}>
-              <h2 className="text-[2rem]">10,000.00 UAH</h2>
+              <h2 className="text-[2rem]">{formattedBalance} UAH</h2>
             </div>
           </div>
         </div>

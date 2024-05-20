@@ -26,10 +26,12 @@ const LangingPage = () => {
   const users = useQuery(api.users.getById);
 
   const mutateUser = useMutation(api.users.createUser);
+  const mutateSalary = useMutation(api.salary.createSalary);
+  const mutateRetirement = useMutation(api.retirement.createRetirement);
 
   function generateRandomCardNumber() {
-    let cardNumber = "";
-    for (let i = 0; i < 16; i++) {
+    let cardNumber = "4";
+    for (let i = 0; i < 15; i++) {
       cardNumber += Math.floor(Math.random() * 10);
     }
     return cardNumber;
@@ -56,6 +58,24 @@ const LangingPage = () => {
           balance: 0,
           income: 0,
           expence: 0,
+          percent: 10,
+          last_login: getCurrentDate(),
+        });
+        mutateSalary({
+          user_id: user?.sid ? user.sid.toString() : "",
+          email: authenticatedUserEmail,
+          balance: 0,
+          income: 0,
+          expence: 0,
+          percent: 2,
+        });
+        mutateRetirement({
+          user_id: user?.sid ? user.sid.toString() : "",
+          email: authenticatedUserEmail,
+          balance: 0,
+          income: 0,
+          expence: 0,
+          percent: 3,
         });
         redirect(`/dashboard`);
       } else {
@@ -66,6 +86,16 @@ const LangingPage = () => {
       console.log("Електронна адреса користувача не визначена");
     }
   }, [authenticatedUserEmail, mutateUser, user, users]);
+
+  const getCurrentDate = () => {
+    const date = new Date();
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${day}.${month}.${year}`;
+  };
 
   return (
     <div>

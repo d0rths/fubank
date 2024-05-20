@@ -28,8 +28,8 @@ const DashboardHeader: React.FC<{ pathname: string }> = ({ pathname }) => {
     case "/dashboard":
       pageTitle = "Огляд";
       break;
-    case "/dashboard/transfer":
-      pageTitle = "Переказ";
+    case "/dashboard/accounts":
+      pageTitle = "Рахунки";
       break;
     case "/dashboard/transactions":
       pageTitle = "Транзакції";

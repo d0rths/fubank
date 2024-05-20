@@ -19,8 +19,6 @@ import { Button } from "@/components/ui/button";
 export const Navigation = () => {
   const pathname = usePathname();
 
-  const transfer = useTransfer();
-
   return (
     <div className="pl-[7.5rem] pr-[6.5rem] w-max">
       <div className="py-10">
@@ -41,20 +39,19 @@ export const Navigation = () => {
           <p className="text-xl font-medium ml-10">Огляд</p>
         </Link>
         <Link
-          href=""
+          href="/dashboard/accounts"
           className="flex flex-row"
           style={{
-            color: pathname === "/dashboard/transfer" ? "#33B786" : "#555555",
+            color: pathname === "/dashboard/accounts" ? "#33B786" : "#555555",
           }}
-          onClick={transfer.onOpen}
         >
           <Image
-            src={pathname === "/dashboard/transfer" ? NavImage2Alt : NavImage2}
+            src={pathname === "/dashboard/accounts" ? NavImage2Alt : NavImage2}
             alt="Navigation bar image 2"
             width={32}
             height={32}
           />
-          <p className="text-xl font-medium ml-10">Переказ</p>
+          <p className="text-xl font-medium ml-10">Рахунки</p>
         </Link>
         <Link
           href="/dashboard/transactions"

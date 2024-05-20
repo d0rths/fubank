@@ -20,7 +20,7 @@ export const getByEmail = query({
 });
 
 export const createUser = mutation({
-  args: { email: v.string(), username: v.string(), user_id: v.string(), card: v.string(), phone: v.string(), balance: v.float64(), income: v.float64(), expence: v.float64() },
+  args: { email: v.string(), username: v.string(), user_id: v.string(), card: v.string(), phone: v.string(), balance: v.float64(), income: v.float64(), expence: v.float64(), percent: v.float64(), last_login: v.string() },
   handler: async (ctx, args) => {
     const userId = await ctx.db.insert("USERS", { 
 			email: args.email, 
@@ -30,7 +30,9 @@ export const createUser = mutation({
 			args.phone, 
 			balance: args.balance, 
 			income: args.income, 
-			expence: args.expence 
+			expence: args.expence,
+			percent: args.percent,
+			last_login: args.last_login,
 		});
 		return userId;
   },
@@ -59,12 +61,23 @@ export const updateUsername = mutation({
 })
 
 export const updateBalance = mutation({
-	args: { id: v.id("USERS"), balance: v.float64(), income: v.float64(), expence: v.float64() },
+	args: { id: v.id("USERS"), balance: v.float64(), expence: v.float64() },
 	handler: async (ctx, args) => {
 		const { id } = args;
     console.log(await ctx.db.get(id));
 
-		await ctx.db.patch(id, { balance: args.balance, income: args.income, expence: args.expence });
+		await ctx.db.patch(id, { balance: args.balance, expence: args.expence });
+		console.log(await ctx.db.get(id));
+	}
+})
+
+export const updateBalanceIncome = mutation({
+	args: { id: v.id("USERS"), balance: v.float64(), income: v.float64() },
+	handler: async (ctx, args) => {
+		const { id } = args;
+    console.log(await ctx.db.get(id));
+
+		await ctx.db.patch(id, { balance: args.balance, expence: args.income });
 		console.log(await ctx.db.get(id));
 	}
 })

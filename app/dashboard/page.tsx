@@ -1,10 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import EyeCrossed from "@/public/eye-crossed.svg";
-import EyeOpen from "@/public/eye.svg";
 import IconLogo from "@/public/Icon_logo.svg";
-import { Bebas_Neue } from "next/font/google";
 import { ArrowRight, Plus } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -13,19 +10,15 @@ import TransactionsTable from "./_components/transactionsTable";
 import TransferCard from "./_components/transferCard";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { useTransfer } from "@/hooks/use-transfer";
-
-const bebasNeue = Bebas_Neue({
-  subsets: ["latin"],
-  weight: "400",
-});
+import AccountCards from "./_components/accountCards";
+import { AccountsCombobox } from "@/components/modals/accounts-combobox";
 
 const DashboardPage = () => {
-  const { user } = useUser();
   const users = useQuery(api.users.getById);
 
   const [loading, setLoading] = useState(true);
+  const [selectedAccountIndex, setSelectedAccountIndex] = useState("0");
 
   useEffect(() => {
     if (users) {
@@ -33,39 +26,13 @@ const DashboardPage = () => {
     }
   }, [users]);
 
-  const authenticatedUserEmail = user && user?.email;
-  const authenticatedUser = users?.find(
-    (user) => user.email === authenticatedUserEmail
-  );
-  const authenticatedUserBalance = authenticatedUser?.balance;
-  const authenticatedUserIncome = authenticatedUser?.income;
-  const authenticatedUserExpence = authenticatedUser?.expence;
-
-  let numbers = [
-    authenticatedUserBalance,
-    authenticatedUserIncome,
-    authenticatedUserExpence,
-  ];
-  const [showNumbers, setShowNumbers] = useState(true);
-
-  const toggleNumbers = () => {
-    setShowNumbers(!showNumbers);
-  };
-
-  const hideNumbers = () => {
-    return showNumbers
-      ? numbers.map((number) =>
-          number?.toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
-        )
-      : numbers.map(() => "XXXXX");
-  };
-
   const pathname = usePathname();
 
   const transfer = useTransfer();
+
+  const handleAccountSelect = (value: string) => {
+    setSelectedAccountIndex(value);
+  };
 
   if (loading) {
     return (
@@ -82,47 +49,9 @@ const DashboardPage = () => {
         <div>
           <div className="flex flex-row justify-between pb-5">
             <h2 className="text-2xl font-medium">Баланс Поточного Рахунку</h2>
-            <Button
-              className="bg-customGray py-6 hover:bg-[#d3d2d2]"
-              onClick={toggleNumbers}
-            >
-              <Image
-                src={showNumbers ? EyeOpen : EyeCrossed}
-                alt={
-                  showNumbers ? "Hide account balance" : "Show account balance"
-                }
-                width={16}
-                height={16}
-              />
-            </Button>
+            <AccountsCombobox onSelect={handleAccountSelect} />
           </div>
-          <div className="flex flex-row bg-light pl-[2.625rem] py-8 rounded-xl">
-            <div>
-              <Image src={IconLogo} alt="Icon logo" width={64} height={64} />
-            </div>
-            <div className="flex flex-row w-[38rem] pl-10">
-              <div className="w-1/3">
-                <p className="text-link text-base font-medium">
-                  Поточний баланс
-                </p>
-                <div className={bebasNeue.className}>
-                  <h2 className="text-[2rem]">{hideNumbers()[0]} UAH</h2>
-                </div>
-              </div>
-              <div className="w-1/3">
-                <p className="text-link text-base font-medium">Прибуток</p>
-                <div className={bebasNeue.className}>
-                  <h2 className="text-[2rem]">{hideNumbers()[1]} UAH</h2>
-                </div>
-              </div>
-              <div className="w-1/3">
-                <p className="text-link text-base font-medium">Витрати</p>
-                <div className={bebasNeue.className}>
-                  <h2 className="text-[2rem]">{hideNumbers()[2]} UAH</h2>
-                </div>
-              </div>
-            </div>
-          </div>
+          <AccountCards index={selectedAccountIndex} />
         </div>
         <div>
           <div className="flex flex-row justify-between pb-5 pt-16">

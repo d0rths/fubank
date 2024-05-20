@@ -22,6 +22,26 @@ export default defineSchema({
 		balance: v.float64(),
 		income: v.float64(),
 		expence: v.float64(),
+		percent: v.float64(),
+		last_login: v.string(),
+	})
+		.index("by_userid", ["user_id"]),
+	SALARY_ACCOUNTS: defineTable({
+		user_id: v.string(),
+		email: v.string(),
+		balance: v.float64(),
+		income: v.float64(),
+		expence: v.float64(),
+		percent: v.float64(),
+	})
+		.index("by_userid", ["user_id"]),
+	RETIREMENT_ACCOUNTS: defineTable({
+		user_id: v.string(),
+		email: v.string(),
+		balance: v.float64(),
+		income: v.float64(),
+		expence: v.float64(),
+		percent: v.float64(),
 	})
 		.index("by_userid", ["user_id"]),
 });
