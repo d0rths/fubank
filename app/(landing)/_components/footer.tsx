@@ -20,7 +20,7 @@ const Footer = () => {
               Центр підтримки
             </Link>
             <Link href="" className="py-3 text-2xl text-muted-foreground">
-              Зв'яжіться з нами
+              Зв`&apos;`яжіться з нами
             </Link>
             <Link href="" className="py-3 text-2xl text-muted-foreground">
               Спосіб використання
