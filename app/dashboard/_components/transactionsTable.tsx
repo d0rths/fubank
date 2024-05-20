@@ -54,7 +54,10 @@ const TransactionsTable = () => {
               ?.slice()
               .reverse()
               .map(({ username, type, date, amount, status, from, to }) => (
-                <tr className="h-16 border-b-2 text-base font-medium text-muted-foreground">
+                <tr
+                  key={username}
+                  className="h-16 border-b-2 text-base font-medium text-muted-foreground"
+                >
                   <td>{username}</td>
                   {shouldShowSecondColumn && <td>{type}</td>}
                   <td>{date}</td>

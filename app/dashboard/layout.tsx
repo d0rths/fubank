@@ -9,6 +9,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, error, isLoading } = useUser();
+  const pathname = usePathname();
 
   if (isLoading)
     return (
@@ -21,8 +22,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
     );
   if (error) return <div>{error.message}</div>;
-
-  const pathname = usePathname();
 
   if (user)
     return (
