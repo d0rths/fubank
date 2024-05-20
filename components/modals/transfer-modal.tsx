@@ -74,13 +74,11 @@ export const TransferModal = () => {
   const updateUsersBalance = () => {
     if (authenticatedUser) {
       const updatedBalance = authenticatedUser?.balance - amount;
-      const updatedIncome = authenticatedUser?.income;
       const updatedExpence = authenticatedUser?.expence + amount;
 
       updateBalance({
         id: authenticatedUser._id,
         balance: updatedBalance,
-        income: updatedIncome,
         expence: updatedExpence,
       });
     }
@@ -89,13 +87,11 @@ export const TransferModal = () => {
   const updateTransferUserBalance = () => {
     if (transferUserExists) {
       const updatedBalance = transferUserExists?.balance + amount;
-      const updatedIncome = transferUserExists?.income + amount;
       const updatedExpence = transferUserExists?.expence;
 
       updateBalance({
         id: transferUserExists._id,
         balance: updatedBalance,
-        income: updatedIncome,
         expence: updatedExpence,
       });
     }
