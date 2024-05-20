@@ -1,15 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Link } from "lucide-react";
 import { Bebas_Neue } from "next/font/google";
-import Eye from "@/public/eye.svg";
-import EyeCrossed from "@/public/eye-crossed.svg";
 import Image from "next/image";
 import IconLogo from "@/public/Icon_logo.svg";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],

@@ -2,8 +2,6 @@ import Image from "next/image";
 import CreditImg from "@/public/Credit-card.png";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { useUser } from "@auth0/nextjs-auth0/client";
 
 const Header = () => {
   return (
