@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import { useAlert } from "@/hooks/use-alert";
+import { useSalary } from "@/hooks/use-salary";
 import { useSuccess } from "@/hooks/use-success";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useMutation, useQuery } from "convex/react";
@@ -44,6 +45,34 @@ const Transfer: React.FC<TransferCardProps> = ({ index }) => {
   const transferUserExists = users?.find((users) => users.card === cardNumber);
 
   const makeTransfer = () => {
+    if (cardNumber === "Зарплата") {
+      if (authenticatedUserSalary) {
+        const updatedBalance = authenticatedUserSalary.balance + amount;
+
+        updateSalaryBalance({
+          id: authenticatedUserSalary._id,
+          balance: updatedBalance,
+          expence: authenticatedUserSalary.expence,
+        });
+
+        salary.onOpen(amount.toString(), cardNumber);
+      }
+      return;
+    }
+    if (cardNumber === "Пенсія") {
+      if (authenticatedUserRetirement) {
+        const updatedBalance = authenticatedUserRetirement.balance + amount;
+
+        updateRetirementBalance({
+          id: authenticatedUserRetirement._id,
+          balance: updatedBalance,
+          expence: authenticatedUserRetirement.expence,
+        });
+
+        salary.onOpen(amount.toString(), cardNumber);
+      }
+      return;
+    }
     if (!cardNumber) {
       alert.onOpen("Введіть номер картки.");
     } else if (!transferUserExists) {
@@ -167,6 +196,7 @@ const Transfer: React.FC<TransferCardProps> = ({ index }) => {
 
   const alert = useAlert();
   const success = useSuccess();
+  const salary = useSalary();
   return (
     <div className="flex flex-row bg-light rounded-xl pl-10 py-8 w-full">
       <div className="min-w-[12rem] max-w-[12rem]">

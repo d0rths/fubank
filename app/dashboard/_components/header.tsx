@@ -1,7 +1,4 @@
 "use client";
-import Image from "next/image";
-import SearchIcon from "@/public/Search_icon.svg";
-import defaultProfile from "@/public/avatar_placeholder.png";
 import { Bebas_Neue } from "next/font/google";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { api } from "@/convex/_generated/api";

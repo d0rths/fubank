@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { TransferModal } from "@/components/modals/transfer-modal";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { SuccessModal } from "../modals/success-transfer-modal";
+import { SalaryModal } from "../modals/salary-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -22,6 +23,7 @@ export const ModalProvider = () => {
       <TransferModal />
       <AlertModal />
       <SuccessModal />
+      <SalaryModal />
     </>
   );
 };

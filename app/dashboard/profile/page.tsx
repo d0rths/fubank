@@ -1,15 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 import { Bebas_Neue } from "next/font/google";
-import Image from "next/image";
-import EyeCrossed from "@/public/eye-crossed.svg";
-import Eye from "@/public/eye.svg";
 import { usePathname } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Expand, Plus } from "lucide-react";
 import TransactionsTable from "../_components/transactionsTable";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useState } from "react";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 
@@ -132,13 +128,8 @@ const Profile = () => {
           <div className="bg-light rounded-xl px-8 py-8 w-[29.25rem]">
             <div className="flex flex-row justify-between">
               <p className="text-link text-base font-medium">Основний Баланс</p>
-              <Link href="" className="pt-1">
-                <Image
-                  src={EyeCrossed}
-                  alt="Hide account balance"
-                  width={16}
-                  height={16}
-                />
+              <Link href="/dashboard/accounts" className="pt-1">
+                <Expand width={18} height={18} className="text-custom" />
               </Link>
             </div>
             <div className={bebasNeue.className}>

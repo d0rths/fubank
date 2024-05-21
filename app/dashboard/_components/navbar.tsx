@@ -13,8 +13,6 @@ import NavImage4Alt from "@/public/dashboard_nav_4_alt.svg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { useTransfer } from "@/hooks/use-transfer";
-import { Button } from "@/components/ui/button";
 
 export const Navigation = () => {
   const pathname = usePathname();

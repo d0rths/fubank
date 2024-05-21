@@ -34,7 +34,6 @@ const LangingPage = () => {
   const updateUser = useMutation(api.users.updateBalanceIncome);
   const updateSalary = useMutation(api.salary.updateBalanceIncome);
   const updateRetirement = useMutation(api.retirement.updateBalanceIncome);
-  const updateUserLogin = useMutation(api.users.updateUserLogin);
 
   function generateRandomCardNumber() {
     let cardNumber = "4";
