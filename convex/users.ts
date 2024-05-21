@@ -71,12 +71,23 @@ export const updateBalance = mutation({
 })
 
 export const updateBalanceIncome = mutation({
-	args: { id: v.id("USERS"), balance: v.float64(), income: v.float64() },
+	args: { id: v.id("USERS"), balance: v.float64(), income: v.float64(), last_login: v.string() },
 	handler: async (ctx, args) => {
 		const { id } = args;
     console.log(await ctx.db.get(id));
 
-		await ctx.db.patch(id, { balance: args.balance, expence: args.income });
+		await ctx.db.patch(id, { balance: args.balance, income: args.income, last_login: args.last_login });
+		console.log(await ctx.db.get(id));
+	}
+})
+
+export const updateUserLogin = mutation({
+	args: { id: v.id("USERS"), last_login: v.string() },
+	handler: async (ctx, args) => {
+		const { id } = args;
+    console.log(await ctx.db.get(id));
+
+		await ctx.db.patch(id, {last_login: args.last_login });
 		console.log(await ctx.db.get(id));
 	}
 })

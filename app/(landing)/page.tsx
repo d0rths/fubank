@@ -24,10 +24,17 @@ import { useEffect } from "react";
 const LangingPage = () => {
   const { user } = useUser();
   const users = useQuery(api.users.getById);
+  const salaries = useQuery(api.salary.getById);
+  const retirements = useQuery(api.retirement.getById);
 
   const mutateUser = useMutation(api.users.createUser);
   const mutateSalary = useMutation(api.salary.createSalary);
   const mutateRetirement = useMutation(api.retirement.createRetirement);
+
+  const updateUser = useMutation(api.users.updateBalanceIncome);
+  const updateSalary = useMutation(api.salary.updateBalanceIncome);
+  const updateRetirement = useMutation(api.retirement.updateBalanceIncome);
+  const updateUserLogin = useMutation(api.users.updateUserLogin);
 
   function generateRandomCardNumber() {
     let cardNumber = "4";
@@ -59,7 +66,7 @@ const LangingPage = () => {
           income: 0,
           expence: 0,
           percent: 10,
-          last_login: getCurrentDate(),
+          last_login: getCurrentDateTime(),
         });
         mutateSalary({
           user_id: user?.sid ? user.sid.toString() : "",
@@ -79,22 +86,132 @@ const LangingPage = () => {
         });
         redirect(`/dashboard`);
       } else {
+        const currentDate = getCurrentDateTime();
+        console.log("current date:", currentDate);
+
+        const hourDifference = getHourDifference(
+          currentDate,
+          authenticatedUserExists.last_login
+        );
+        console.log(hourDifference);
+
+        calculateInterest(authenticatedUserExists, currentDate, hourDifference);
+
         console.log("Користувач з таким email вже існує");
         redirect(`/dashboard`);
       }
-    } else {
-      console.log("Електронна адреса користувача не визначена");
     }
   }, [authenticatedUserEmail, mutateUser, user, users]);
 
-  const getCurrentDate = () => {
+  const getCurrentDateTime = () => {
     const date = new Date();
 
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
 
-    return `${day}.${month}.${year}`;
+    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+  };
+
+  const stringToDate = (dateString: string): Date => {
+    const parts = dateString.split(" ");
+    const datePart = parts[0];
+    const timePart = parts.length > 1 ? parts[1] : "00:00:00";
+    const [day, month, year] = datePart.split(".");
+    const [hours, minutes, seconds] = timePart.split(":");
+    return new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hours),
+      Number(minutes),
+      Number(seconds)
+    );
+  };
+
+  const getHourDifference = (
+    dateString1: string,
+    dateString2: string
+  ): number => {
+    const dateObject1 = stringToDate(dateString1);
+    const dateObject2 = stringToDate(dateString2);
+    console.log(dateObject1, dateObject2);
+
+    const timeDifferenceInMillis = Math.abs(
+      dateObject1.getTime() - dateObject2.getTime()
+    );
+    console.log(timeDifferenceInMillis);
+
+    const hourDifference = timeDifferenceInMillis / (1000 * 60);
+    return hourDifference;
+  };
+
+  const calculateInterest = (
+    user: any,
+    currentDate: string,
+    hourDifference: number
+  ) => {
+    const userSalary = salaries?.find(
+      (salaries) => salaries.email === user.email
+    );
+    const userRetirement = retirements?.find(
+      (retirements) => retirements.email === user.email
+    );
+
+    // Розрахунок відсотка за період (1 рік)
+    const timeDifferenceInYears = hourDifference / 24 / 365;
+    const annualInterestRateUser = user.percent;
+    const interestRateUser = annualInterestRateUser / 100;
+    const totalInterestUser =
+      user.balance * interestRateUser * timeDifferenceInYears;
+
+    // Оновлення балансу з врахуванням відсотків
+    const newBalanceUser = user.balance + totalInterestUser;
+    const newIncomeUser = user.income + totalInterestUser;
+
+    updateUser({
+      id: user._id,
+      balance: newBalanceUser,
+      income: newIncomeUser,
+      last_login: currentDate,
+    });
+
+    if (userSalary) {
+      const annualInterestRateSalary = userSalary.percent;
+      const interestRateSalary = annualInterestRateSalary / 100;
+      const totalInterestSalary =
+        userSalary.balance * interestRateSalary * timeDifferenceInYears;
+
+      const newBalanceSalary = userSalary.balance + totalInterestSalary;
+      const newIncomeSalary = userSalary.income + totalInterestSalary;
+
+      updateSalary({
+        id: userSalary._id,
+        balance: newBalanceSalary,
+        income: newIncomeSalary,
+      });
+    }
+
+    if (userRetirement) {
+      const annualInterestRateRetirement = userRetirement.percent;
+      const interestRateRetirement = annualInterestRateRetirement / 100;
+      const totalInterestRetirement =
+        userRetirement.balance * interestRateRetirement * timeDifferenceInYears;
+
+      const newBalanceRetirement =
+        userRetirement.balance + totalInterestRetirement;
+      const newIncomeRetirement =
+        userRetirement.income + totalInterestRetirement;
+
+      updateRetirement({
+        id: userRetirement._id,
+        balance: newBalanceRetirement,
+        income: newIncomeRetirement,
+      });
+    }
   };
 
   return (

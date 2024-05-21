@@ -44,3 +44,14 @@ export const updateBalance = mutation({
     console.log(await ctx.db.get(id));
   },
 });
+
+export const updateBalanceIncome = mutation({
+	args: { id: v.id("RETIREMENT_ACCOUNTS"), balance: v.float64(), income: v.float64() },
+	handler: async (ctx, args) => {
+		const { id } = args;
+    console.log(await ctx.db.get(id));
+
+		await ctx.db.patch(id, { balance: args.balance, income: args.income });
+		console.log(await ctx.db.get(id));
+	}
+})

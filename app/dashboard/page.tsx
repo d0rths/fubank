@@ -64,7 +64,7 @@ const DashboardPage = () => {
             </Button>
           </div>
           <div>
-            <TransferCard />
+            <TransferCard index={selectedAccountIndex} />
           </div>
         </div>
       </div>

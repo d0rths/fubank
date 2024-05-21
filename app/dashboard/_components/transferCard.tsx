@@ -12,16 +12,30 @@ const bebasNeue = Bebas_Neue({
   weight: "400",
 });
 
-const Transfer = () => {
+interface TransferCardProps {
+  index: string;
+}
+
+const Transfer: React.FC<TransferCardProps> = ({ index }) => {
   const { user } = useUser();
   const users = useQuery(api.users.getById);
+  const salaries = useQuery(api.salary.getById);
+  const retirements = useQuery(api.retirement.getById);
 
   const mutateTransfer = useMutation(api.transactions.createTransfer);
   const updateBalance = useMutation(api.users.updateBalance);
+  const updateSalaryBalance = useMutation(api.salary.updateBalance);
+  const updateRetirementBalance = useMutation(api.retirement.updateBalance);
 
   const authenticatedUserEmail = user && user?.email;
   const authenticatedUser = users?.find(
     (user) => user.email === authenticatedUserEmail
+  );
+  const authenticatedUserSalary = salaries?.find(
+    (salaries) => salaries.email === authenticatedUserEmail
+  );
+  const authenticatedUserRetirement = retirements?.find(
+    (retirements) => retirements.email === authenticatedUserEmail
   );
 
   const [cardNumber, setCardNumber] = useState("");
@@ -47,7 +61,7 @@ const Transfer = () => {
         username: authenticatedUser?.username || "",
         from: authenticatedUser?.card || "",
         to: cardNumber,
-        date: getCurrentDate(),
+        date: getCurrentDateTime(),
         amount: amount,
         status: "Завершено",
         type: "Переказ",
@@ -64,14 +78,38 @@ const Transfer = () => {
 
   const updateUsersBalance = () => {
     if (authenticatedUser) {
-      const updatedBalance = authenticatedUser?.balance - amount;
-      const updatedExpence = authenticatedUser?.expence + amount;
+      if (authenticatedUserSalary) {
+        if (authenticatedUserRetirement) {
+          if (index === "0") {
+            const updatedBalance = authenticatedUser.balance - amount;
+            const updatedExpence = authenticatedUser.expence + amount;
 
-      updateBalance({
-        id: authenticatedUser._id,
-        balance: updatedBalance,
-        expence: updatedExpence,
-      });
+            updateBalance({
+              id: authenticatedUser._id,
+              balance: updatedBalance,
+              expence: updatedExpence,
+            });
+          } else if (index === "1") {
+            const updatedBalance = authenticatedUserSalary.balance - amount;
+            const updatedExpence = authenticatedUserSalary.expence + amount;
+
+            updateSalaryBalance({
+              id: authenticatedUserSalary._id,
+              balance: updatedBalance,
+              expence: updatedExpence,
+            });
+          } else if (index === "2") {
+            const updatedBalance = authenticatedUserRetirement.balance - amount;
+            const updatedExpence = authenticatedUserRetirement.expence + amount;
+
+            updateRetirementBalance({
+              id: authenticatedUserRetirement._id,
+              balance: updatedBalance,
+              expence: updatedExpence,
+            });
+          }
+        }
+      }
     }
   };
 
@@ -88,23 +126,44 @@ const Transfer = () => {
     }
   };
 
-  const getCurrentDate = () => {
+  const getCurrentDateTime = () => {
     const date = new Date();
 
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
 
-    return `${day}.${month}.${year}`;
+    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
   };
 
-  const authenticatedUserBalance = authenticatedUser?.balance.toLocaleString(
-    "en-Us",
-    {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }
-  );
+  let authenticatedUserBalance;
+
+  if (index === "0") {
+    authenticatedUserBalance = authenticatedUser?.balance.toLocaleString(
+      "en-Us",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }
+    );
+  } else if (index === "1") {
+    authenticatedUserBalance = authenticatedUserSalary?.balance.toLocaleString(
+      "en-Us",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }
+    );
+  } else if (index === "2") {
+    authenticatedUserBalance =
+      authenticatedUserRetirement?.balance.toLocaleString("en-Us", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+  }
 
   const alert = useAlert();
   const success = useSuccess();
