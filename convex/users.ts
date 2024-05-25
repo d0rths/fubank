@@ -8,16 +8,6 @@ export const getById = query({
 	},
 });
 
-export const getByEmail = query({
-  args: { email: v.string() },
-  handler: async (ctx, args) => {
-    const userEmail = await ctx.db
-      .query("USERS")
-      .collect();
-    return userEmail;
-  },
-});
-
 export const createUser = mutation({
   args: { email: v.string(), username: v.string(), user_id: v.string(), card: v.string(), phone: v.string(), balance: v.float64(), income: v.float64(), expence: v.float64(), percent: v.float64(), last_login: v.string() },
   handler: async (ctx, args) => {

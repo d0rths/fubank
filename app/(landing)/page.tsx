@@ -86,17 +86,12 @@ const LangingPage = () => {
         redirect(`/dashboard`);
       } else {
         const currentDate = getCurrentDateTime();
-        console.log("current date:", currentDate);
-
         const hourDifference = getHourDifference(
           currentDate,
           authenticatedUserExists.last_login
         );
-        console.log(hourDifference);
 
         calculateInterest(authenticatedUserExists, currentDate, hourDifference);
-
-        console.log("Користувач з таким email вже існує");
         redirect(`/dashboard`);
       }
     }
@@ -137,12 +132,10 @@ const LangingPage = () => {
   ): number => {
     const dateObject1 = stringToDate(dateString1);
     const dateObject2 = stringToDate(dateString2);
-    console.log(dateObject1, dateObject2);
 
     const timeDifferenceInMillis = Math.abs(
       dateObject1.getTime() - dateObject2.getTime()
     );
-    console.log(timeDifferenceInMillis);
 
     const hourDifference = timeDifferenceInMillis / (1000 * 60);
     return hourDifference;

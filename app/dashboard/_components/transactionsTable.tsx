@@ -2,6 +2,7 @@ import { usePathname } from "next/navigation";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useEffect, useState } from "react";
 
 const TransactionsTable = () => {
   const pathname = usePathname();
@@ -29,10 +30,29 @@ const TransactionsTable = () => {
     pathname !== "/dashboard" &&
     pathname !== "/dashboard/profile" &&
     pathname !== "/dashboard/accounts";
-  const tableHeight =
-    pathname === "/dashboard" || pathname === "/dashboard/accounts"
-      ? "h-[41rem]"
-      : "h-[31rem]";
+
+  const [tableHeight, setTableHeight] = useState("");
+
+  useEffect(() => {
+    switch (pathname) {
+      case "/dashboard": {
+        setTableHeight("h-[41rem]");
+        break;
+      }
+      case "/dashboard/accounts": {
+        setTableHeight("h-[41rem]");
+        break;
+      }
+      case "/dashboard/profile": {
+        setTableHeight("h-[28rem]");
+        break;
+      }
+      case "/dashboard/transactions": {
+        setTableHeight("h-[43rem]");
+        break;
+      }
+    }
+  });
 
   return (
     <div className={`${tableHeight} p-2 overflow-auto`}>
