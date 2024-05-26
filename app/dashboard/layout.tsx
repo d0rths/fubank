@@ -36,7 +36,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             className="opacity-5"
           />
         </div>
-        <Navbar />
+        <Navbar /> {/* Виклик компоненту навігації */}
         <div className="flex flex-col">
           <Header pathname={pathname} />
           {children}
