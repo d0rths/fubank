@@ -209,12 +209,6 @@ const LangingPage = () => {
 
   return (
     <div>
-      <Head>
-        <meta
-          name="google-site-verification"
-          content="YXGmK-XvnUI_xoz8p1LHbB5kDdlNaVCL_WQZ5pEAQVw"
-        />
-      </Head>
       <Header />
       <main>
         <div className="px-[7.5rem] py-[7.5rem]" id="More">
