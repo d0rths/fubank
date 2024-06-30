@@ -109,7 +109,7 @@ const Profile = () => {
           <input
             type="tel"
             placeholder={"Введіть ваш номер телефону"}
-            className={`rounded-lg py-5 w-full mt-3 text-2xl font-bold outline-none ${hasLetters ? "bg-red-100" : ""}`}
+            className={`rounded-lg w-full mt-2 mb-5 text-2xl font-bold outline-none ${hasLetters ? "bg-red-100" : ""}`}
             defaultValue={authenticatedUser?.phone}
             onChange={handleInputPhoneChange}
             maxLength={10}
