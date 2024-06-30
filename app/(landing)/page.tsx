@@ -20,6 +20,7 @@ import { redirect } from "next/navigation";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useEffect } from "react";
+import Head from "next/head";
 
 const LangingPage = () => {
   const { user } = useUser();
@@ -208,6 +209,12 @@ const LangingPage = () => {
 
   return (
     <div>
+      <Head>
+        <meta
+          name="google-site-verification"
+          content="YXGmK-XvnUI_xoz8p1LHbB5kDdlNaVCL_WQZ5pEAQVw"
+        />
+      </Head>
       <Header />
       <main>
         <div className="px-[7.5rem] py-[7.5rem]" id="More">
